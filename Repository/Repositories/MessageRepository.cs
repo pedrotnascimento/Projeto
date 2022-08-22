@@ -2,6 +2,7 @@
 using Repository.DataAccessLayer;
 using Repository.RepositoryInterfaces;
 using Repository.Models;
+using System.Linq;
 
 namespace Repository.Repositories
 {
@@ -16,16 +17,27 @@ namespace Repository.Repositories
             this.mapper = mapper;
         }
 
-        public void Create(MessageDAL timeMoment)
+        public MessageDAL Create(MessageDAL message)
         {
-            var instance = mapper.Map<MessageDAL, Message>(timeMoment);
+            var instance = mapper.Map<MessageDAL, Message>(message);
             this.context.Messages.Add(instance);
             context.SaveChanges();
+            var ret = mapper.Map<MessageDAL>(instance);
+            return ret;
         }
 
-        public void Query(int chatRoomId)
+        public List<MessageDAL> Query(FilterMessageDAL filter)
         {
-            throw new NotImplementedException();
+            var sortingsProperties = new Dictionary<string, string>()
+            {
+                {"timestamp", "Timestamp" },
+            };
+            var messages = this.context.Messages.Where(x => x.ChatRoomId == filter.ChatRoom);    
+            messages = messages.OrderByDescending(x => x.Timestamp);
+            messages = messages.Take(filter.Quantity);
+            
+            var messagesDAL = mapper.Map<List<MessageDAL>>(messages);
+            return messagesDAL;
         }
     }
 }

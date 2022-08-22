@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Repository.DataAccessLayer
 {
     public class MessageDAL
     {
+        public string UserId { get; set; }
         public UserDAL User { get; set; }
+        public int ChatRoomId { get; set; }
         public ChatRoomDAL ChatRoom { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime Timestamp { get; set; }
         public string Payload { get; set; }
     }
 }

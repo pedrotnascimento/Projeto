@@ -72,15 +72,6 @@ namespace FolhaDePontoTest
             testUser = new UserBR { Name = "teste" };
         }
 
-        private MessageBR CreateMomenWithUser(string dateTimeStr, int userId)
-        {
-            return new MessageBR
-            {
-                UserId = userId,
-                Timestamp = DateTime.Parse(dateTimeStr),
-            };
-        }
-
         private static IChatRoom ChatRoomServiceArranje(AppDatabaseContext context)
         {
             Mock<ILogger<ChatRoomService>> mockLogger = new Mock<ILogger<ChatRoomService>>();

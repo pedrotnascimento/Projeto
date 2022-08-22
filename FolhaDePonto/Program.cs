@@ -22,6 +22,7 @@ var connectionString = configuration.GetConnectionString("DatabaseContextConnect
 
 // Add services to the container.
 services.AddScoped<IChatRoom, ChatRoomService>();
+services.AddScoped<IMessage, MessageService>();
 services.AddScoped<IMessageRepository, MessageRepository>();
 services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
 services.AddScoped<IAuthentication, Authentication>();

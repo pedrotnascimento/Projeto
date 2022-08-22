@@ -32,11 +32,11 @@ namespace Application.Controllers
             [FromServices] SigningConfigurations signingConfigurations,
             [FromServices] TokenConfigurations tokenConfigurations)
         {
-
+            ApplicationUser? userIdentity = null;
             bool validCredentials = false;
             if (user != null && !String.IsNullOrWhiteSpace(user.UserID))
             {
-                var userIdentity = _userManager
+                userIdentity = _userManager
                     .FindByNameAsync(user.UserID).Result;
                 if (userIdentity != null)
                 {
@@ -57,7 +57,8 @@ namespace Application.Controllers
                     new GenericIdentity(user.UserID, "Login"),
                     new[] {
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                        new Claim(JwtRegisteredClaimNames.UniqueName, user.UserID)
+                        new Claim(JwtRegisteredClaimNames.UniqueName, user.UserID),
+                        new Claim(JwtRegisteredClaimNames.NameId, userIdentity.Id),
                     }
                 );
 
