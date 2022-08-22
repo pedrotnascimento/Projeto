@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Repository.DataAccessLayer
 {
-    public class TimeMomentDAL
+    public class MessageDAL
     {
-        public int UserId { get; set; }
         public UserDAL User { get; set; }
+        public ChatRoomDAL ChatRoom { get; set; }
         public DateTime DateTime { get; set; }
+        public string Payload { get; set; }
     }
 }

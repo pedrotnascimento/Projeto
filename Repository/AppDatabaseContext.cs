@@ -8,8 +8,8 @@ namespace Repository
 
     public class AppDatabaseContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<TimeAllocation> TimeAllocations { get; set; }
-        public DbSet<TimeMoment> TimeMoments { get; set; }
+        public DbSet<ChatRoom> ChatRooms { get; set; }
+        public DbSet<Message> Messages { get; set; }
         public DbSet<User> Users { get; set; }
 
         public string DbPath { get; }
@@ -29,8 +29,8 @@ namespace Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<TimeMoment>();
-            modelBuilder.Entity<TimeAllocation>();
+            modelBuilder.Entity<Message>();
+            modelBuilder.Entity<ChatRoom>();
         }
 
     }

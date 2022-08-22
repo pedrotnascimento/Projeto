@@ -11,8 +11,8 @@ namespace Application.AutoMapper
 
         public BRtoDALProfileMapper()
         {
-            CreateMap<TimeMomentBR, TimeMomentDAL>().ReverseMap();
-            CreateMap<TimeAllocationBR, TimeAllocationDAL>().ReverseMap();
+            CreateMap<MessageBR, MessageDAL>().ReverseMap();
+            CreateMap<ChatRoomBR, ChatRoomDAL>().ReverseMap();
             CreateMap<UserBR, UserDAL>().ReverseMap();
         }
 

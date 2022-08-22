@@ -1,6 +1,6 @@
 ﻿namespace Application.DTO
 {
-    public class MessageResponseDTO
+    public class MessageCreateDTO
     {
         public int UserId { get; set; }
         public int ChatRoomId { get; set; }

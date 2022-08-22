@@ -1,10 +1,8 @@
 using Moq;
 using Microsoft.Extensions.Logging;
-using Application.Exceptions.FolhaDePontoExceptions;
 using Repository.Repositories;
 using Repository;
 using BusinessRule.Interfaces;
-using BusinessRule.Exceptions.FolhaDePontoExceptions;
 using BusinessRule.Services;
 using BusinessRule.Domain;
 using Repository.Models;
@@ -17,7 +15,7 @@ namespace FolhaDePontoTest
     public class FolhaDePontoServiceTest
     {
         private readonly DateTime defaultDateTime = new DateTime(2022, 1, 3, 0, 0, 0);
-        IFolhaDePonto folhaDePonto;
+        IChatRoom folhaDePonto;
         UserBR testUser;
         AppDatabaseContext context;
         public FolhaDePontoServiceTest()
@@ -33,12 +31,12 @@ namespace FolhaDePontoTest
         [InlineData("2022-01-20T23:59:59")]
         public void ShouldRegisterATimeMoment(string dateTimeStr)
         {
-            TimeMomentBR timeMoment = TimeMomentArranje(dateTimeStr);
-            var hourPart = timeMoment.DateTime.ToLongTimeString();
+            MessageBR timeMoment = TimeMomentArranje(dateTimeStr);
+            var hourPart = timeMoment.Timestamp.ToLongTimeString();
 
-            IEnumerable<TimeMomentBR> result = folhaDePonto.ClockIn(timeMoment);
+            IEnumerable<MessageBR> result = folhaDePonto.ClockIn(timeMoment);
 
-            Assert.NotNull(result.FirstOrDefault(x => x.DateTime.ToLongTimeString() == hourPart));
+            Assert.NotNull(result.FirstOrDefault(x => x.Timestamp.ToLongTimeString() == hourPart));
         }
 
 
@@ -48,18 +46,18 @@ namespace FolhaDePontoTest
         [InlineData("2022-01-03T00:00:00", "2022-01-03T22:58:00", "2022-01-03T23:58:00", "2022-01-03T23:59:00")]
         public void ShouldRegisterAllTimeMoments(string start, string lunchStart, string lunchEnd, string end)
         {
-            TimeMomentBR startMoment = TimeMomentArranje(start);
+            MessageBR startMoment = TimeMomentArranje(start);
             folhaDePonto.ClockIn(startMoment);
             int userId = startMoment.UserId;
 
-            TimeMomentBR startLunchMoment = CreateMomenWithUser(lunchStart, userId);
+            MessageBR startLunchMoment = CreateMomenWithUser(lunchStart, userId);
             folhaDePonto.ClockIn(startLunchMoment);
 
-            TimeMomentBR endLunchMoment = CreateMomenWithUser(lunchEnd, userId);
+            MessageBR endLunchMoment = CreateMomenWithUser(lunchEnd, userId);
             folhaDePonto.ClockIn(endLunchMoment);
 
-            TimeMomentBR endMoment = CreateMomenWithUser(end, userId);
-            IEnumerable<TimeMomentBR>? result = folhaDePonto.ClockIn(endMoment);
+            MessageBR endMoment = CreateMomenWithUser(end, userId);
+            IEnumerable<MessageBR>? result = folhaDePonto.ClockIn(endMoment);
 
             Assert.True(result.Count() == 4);
         }
@@ -70,7 +68,7 @@ namespace FolhaDePontoTest
         [InlineData("2022-01-03T23:00:00")]
         public void ShouldFailWhenRegisterATimeMomentThatAlreadyExists(string dateTimeStr)
         {
-            TimeMomentBR timeMoment = TimeMomentArranje(dateTimeStr);
+            MessageBR timeMoment = TimeMomentArranje(dateTimeStr);
             folhaDePonto.ClockIn(timeMoment);
 
             var exceptionCall = () => folhaDePonto.ClockIn(timeMoment);
@@ -84,7 +82,7 @@ namespace FolhaDePontoTest
         [InlineData("2022-01-03T16:59:59")]
         public void ShouldFailWhenExceedsTimeMomentRegister(string dateTimeStr)
         {
-            TimeMomentBR timeMomentExtra = SeveralTimeMomentArranje(dateTimeStr, folhaDePonto);
+            MessageBR timeMomentExtra = SeveralTimeMomentArranje(dateTimeStr, folhaDePonto);
 
             var exceptionCall = () => folhaDePonto.ClockIn(timeMomentExtra);
 
@@ -96,7 +94,7 @@ namespace FolhaDePontoTest
         [InlineData("2022-01-02T00:00:00")]
         public void ShouldFailWhenWeekend(string dateTimeStr)
         {
-            TimeMomentBR timeMoment = TimeMomentArranje(dateTimeStr);
+            MessageBR timeMoment = TimeMomentArranje(dateTimeStr);
 
             var exceptionCall = () => folhaDePonto.ClockIn(timeMoment);
 
@@ -109,19 +107,19 @@ namespace FolhaDePontoTest
         public void ShouldFailWhenLunchLessThan1Hour(string startJourney, string lunchStart, string lunchEnd)
         {
 
-            TimeMomentBR startJourneyTimeMoment = TimeMomentArranje(startJourney);
+            MessageBR startJourneyTimeMoment = TimeMomentArranje(startJourney);
             folhaDePonto.ClockIn(startJourneyTimeMoment);
-            TimeMomentBR lunchStartTimeMoment = new TimeMomentBR
+            MessageBR lunchStartTimeMoment = new MessageBR
             {
                 UserId = startJourneyTimeMoment.UserId,
-                DateTime = DateTime.Parse(lunchStart)
+                Timestamp = DateTime.Parse(lunchStart)
             };
             folhaDePonto.ClockIn(lunchStartTimeMoment);
 
-            TimeMomentBR lunchEndTimeMoment = new TimeMomentBR
+            MessageBR lunchEndTimeMoment = new MessageBR
             {
                 UserId = lunchStartTimeMoment.UserId,
-                DateTime = DateTime.Parse(lunchEnd)
+                Timestamp = DateTime.Parse(lunchEnd)
             };
             var exceptionCall = () => folhaDePonto.ClockIn(lunchEndTimeMoment);
 
@@ -138,7 +136,7 @@ namespace FolhaDePontoTest
             BuildTimeMomentFullJourney(hoursWorked);
 
             var timeDuration = new DateTime(1, 1, 1, 0, 0, 0).AddHours(hoursToAllocate);
-            var timeAllocation = new TimeAllocationBR
+            var timeAllocation = new ChatRoomBR
             {
                 Date = defaultDateTime,
                 TimeDuration = timeDuration,
@@ -158,7 +156,7 @@ namespace FolhaDePontoTest
             BuildTimeMomentFullJourney(hoursWorked);
 
             var timeDuration = new DateTime(1, 1, 1, 0, 0, 0).AddHours(hoursToAllocate);
-            var timeAllocation = new TimeAllocationBR
+            var timeAllocation = new ChatRoomBR
             {
                 Date = defaultDateTime,
                 TimeDuration = timeDuration,
@@ -217,42 +215,42 @@ namespace FolhaDePontoTest
             testUser = new UserBR { Name = "teste" };
         }
 
-        private TimeMomentBR CreateMomenWithUser(string dateTimeStr, int userId)
+        private MessageBR CreateMomenWithUser(string dateTimeStr, int userId)
         {
-            return new TimeMomentBR
+            return new MessageBR
             {
                 UserId = userId,
-                DateTime = DateTime.Parse(dateTimeStr),
+                Timestamp = DateTime.Parse(dateTimeStr),
             };
         }
 
-        private TimeMomentBR SeveralTimeMomentArranje(string dateTimeStr, IFolhaDePonto folhaDePonto)
+        private MessageBR SeveralTimeMomentArranje(string dateTimeStr, IChatRoom folhaDePonto)
         {
-            TimeMomentBR timeMoment = TimeMomentArranje(dateTimeStr);
+            MessageBR timeMoment = TimeMomentArranje(dateTimeStr);
 
             folhaDePonto.ClockIn(timeMoment);
-            for (var i = 1; i < FolhaDePontoService.LIMIT_OF_MOMENT_PER_DAY; i++)
+            for (var i = 1; i < ChatRoomService.LIMIT_OF_MOMENT_PER_DAY; i++)
             {
-                TimeMomentBR timeMomentRepeated = new TimeMomentBR
+                MessageBR timeMomentRepeated = new MessageBR
                 {
-                    DateTime = timeMoment.DateTime.AddHours(i),
+                    Timestamp = timeMoment.Timestamp.AddHours(i),
                     UserId = timeMoment.UserId
                 };
                 folhaDePonto.ClockIn(timeMomentRepeated);
             }
 
-            TimeMomentBR timeMomentExtra = new TimeMomentBR
+            MessageBR timeMomentExtra = new MessageBR
             {
-                DateTime = timeMoment.DateTime.AddHours(FolhaDePontoService.LIMIT_OF_MOMENT_PER_DAY),
+                Timestamp = timeMoment.Timestamp.AddHours(ChatRoomService.LIMIT_OF_MOMENT_PER_DAY),
                 UserId = timeMoment.UserId
             };
             timeMomentExtra.UserId = timeMoment.UserId;
             return timeMomentExtra;
         }
 
-        private static IFolhaDePonto FolhaDePontoServiceArranje(AppDatabaseContext context)
+        private static IChatRoom FolhaDePontoServiceArranje(AppDatabaseContext context)
         {
-            Mock<ILogger<FolhaDePontoService>> mockLogger = new Mock<ILogger<FolhaDePontoService>>();
+            Mock<ILogger<ChatRoomService>> mockLogger = new Mock<ILogger<ChatRoomService>>();
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(typeof(DTOtoBRProfileMapper));
@@ -261,27 +259,27 @@ namespace FolhaDePontoTest
             });
 
             var mapper = mapperConfiguration.CreateMapper();
-            var timeMomentRepository = new TimeMomentRepository(context, mapper);
-            var timeAllocationRepository = new TimeAllocationRepository(context, mapper);
-            IFolhaDePonto folhaDePonto = new FolhaDePontoService(mockLogger.Object, mapper, timeMomentRepository, timeAllocationRepository);
+            var timeMomentRepository = new MessageRepository(context, mapper);
+            var timeAllocationRepository = new ChatRoomRepository(context, mapper);
+            IChatRoom folhaDePonto = new ChatRoomService(mockLogger.Object, mapper, timeMomentRepository, timeAllocationRepository);
             return folhaDePonto;
         }
 
-        private TimeMomentBR TimeMomentArranje(string dateTimeStr)
+        private MessageBR TimeMomentArranje(string dateTimeStr)
         {
-            TimeMomentBR timeMoment = new TimeMomentBR();
+            MessageBR timeMoment = new MessageBR();
             DateTime dateTime = DateTime.Parse(dateTimeStr);
-            timeMoment.DateTime = dateTime;
+            timeMoment.Timestamp = dateTime;
             timeMoment.UserId = this.testUser.Id;
             return timeMoment;
         }
 
         private void BuildTimeMomentFullJourney(double hoursWorked)
         {
-            var list = new List<TimeMoment>();
-            TimeMoment timeMomentStart = new TimeMoment { DateTime = defaultDateTime, UserId = testUser.Id };
+            var list = new List<Message>();
+            Message timeMomentStart = new Message { Timestamp = defaultDateTime, UserId = testUser.Id };
             list.Add(timeMomentStart);
-            list.Add(new TimeMoment { DateTime = defaultDateTime.AddHours(hoursWorked), UserId = testUser.Id });
+            list.Add(new Message { Timestamp = defaultDateTime.AddHours(hoursWorked), UserId = testUser.Id });
 
             context.TimeMoments.AddRange(list);
             context.SaveChanges();
@@ -289,13 +287,13 @@ namespace FolhaDePontoTest
 
         private void BuildTimeMomentEntireMonthGivenAnHoursByDay(double hoursWorkedByDay)
         {
-            var list = new List<TimeMoment>();
+            var list = new List<Message>();
             var workDaysInAMonth = DateHelper.WorkDaysInAMonth(defaultDateTime.Date);
             for (int i = 0; i < workDaysInAMonth; i++)
             {
-                TimeMoment timeMomentStart = new TimeMoment { DateTime = defaultDateTime.AddDays(i), UserId = testUser.Id };
+                Message timeMomentStart = new Message { Timestamp = defaultDateTime.AddDays(i), UserId = testUser.Id };
                 list.Add(timeMomentStart);
-                list.Add(new TimeMoment { DateTime = defaultDateTime.AddDays(i).AddHours(hoursWorkedByDay), UserId = testUser.Id });
+                list.Add(new Message { Timestamp = defaultDateTime.AddDays(i).AddHours(hoursWorkedByDay), UserId = testUser.Id });
             }
 
             context.TimeMoments.AddRange(list);
@@ -304,12 +302,12 @@ namespace FolhaDePontoTest
 
         private void BuildTimeAllocation(double hoursToAllocate)
         {
-            TimeAllocation timeAllocation = new TimeAllocation
+            ChatRoom timeAllocation = new ChatRoom
             {
                 Date = defaultDateTime,
                 ProjectName = "Any project",
                 TimeDuration = new DateTime(1, 1, 1).AddHours(hoursToAllocate),
-                UserId = testUser.Id
+                Users = testUser.Id
             };
 
             context.TimeAllocations.Add(timeAllocation);

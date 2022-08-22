@@ -153,6 +153,9 @@ namespace Repository.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("ChatRoomId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
@@ -199,6 +202,8 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ChatRoomId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -209,45 +214,46 @@ namespace Repository.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Repository.Models.TimeAllocation", b =>
+            modelBuilder.Entity("Repository.Models.ChatRoom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ProjectName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("TimeDuration")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.ToTable("TimeAllocations");
+                    b.ToTable("ChatRooms");
                 });
 
-            modelBuilder.Entity("Repository.Models.TimeMoment", b =>
+            modelBuilder.Entity("Repository.Models.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DateTime")
+                    b.Property<int>("ChatRoomId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Timestamp")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.ToTable("TimeMoments");
+                    b.HasIndex("ChatRoomId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Repository.Models.User", b =>
@@ -324,6 +330,37 @@ namespace Repository.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Repository.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("Repository.Models.ChatRoom", null)
+                        .WithMany("Users")
+                        .HasForeignKey("ChatRoomId");
+                });
+
+            modelBuilder.Entity("Repository.Models.Message", b =>
+                {
+                    b.HasOne("Repository.Models.ChatRoom", "ChatRoom")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repository.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("ChatRoom");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repository.Models.ChatRoom", b =>
+                {
+                    b.Navigation("Messages");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

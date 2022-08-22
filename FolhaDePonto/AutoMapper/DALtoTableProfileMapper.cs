@@ -9,8 +9,8 @@ namespace Application.AutoMapper
 
         public DALtoTableProfileMapper()
         {
-            CreateMap<TimeMomentDAL, TimeMoment>().ReverseMap();
-            CreateMap<TimeAllocationDAL, TimeAllocation>().ReverseMap();
+            CreateMap<MessageDAL, Message>().ReverseMap();
+            CreateMap<ChatRoomDAL, ChatRoom>().ReverseMap();
         }
 
     }

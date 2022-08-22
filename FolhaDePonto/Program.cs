@@ -21,9 +21,9 @@ var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DatabaseContextConnection") ?? throw new InvalidOperationException("Connection string 'DatabaseContextConnection' not found.");
 
 // Add services to the container.
-services.AddScoped<IFolhaDePonto, FolhaDePontoService>();
-services.AddScoped<ITimeMomentRepository, TimeMomentRepository>();
-services.AddScoped<ITimeAllocationRepository, TimeAllocationRepository>();
+services.AddScoped<IChatRoom, ChatRoomService>();
+services.AddScoped<IMessageRepository, MessageRepository>();
+services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
 services.AddScoped<IAuthentication, Authentication>();
 services.AddScoped<IIdentityManager, IdentityManager>();
 
