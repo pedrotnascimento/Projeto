@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{E21BFED7-7D84-49F3-B961-E2B6D15CF434}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockBotFunction", "StockBot\StockBotFunction.csproj", "{A887445B-B5C3-458D-9F52-5DEE60D4771F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E21BFED7-7D84-49F3-B961-E2B6D15CF434}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E21BFED7-7D84-49F3-B961-E2B6D15CF434}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E21BFED7-7D84-49F3-B961-E2B6D15CF434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A887445B-B5C3-458D-9F52-5DEE60D4771F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A887445B-B5C3-458D-9F52-5DEE60D4771F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A887445B-B5C3-458D-9F52-5DEE60D4771F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A887445B-B5C3-458D-9F52-5DEE60D4771F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

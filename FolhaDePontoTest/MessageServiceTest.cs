@@ -8,14 +8,11 @@ using BusinessRule.Domain;
 using Repository.Models;
 using AutoMapper;
 using Application.AutoMapper;
-using Common;
-using Microsoft.AspNetCore.Identity;
 
 namespace FolhaDePontoTest
 {
     public class MessageServiceTest
     {
-        private readonly DateTime defaultDateTime = new DateTime(2022, 1, 3, 0, 0, 0);
         private ChatRoom chatRoomInstance;
         private ApplicationUser userInstance;
         IMessage messageService;
