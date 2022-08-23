@@ -4,13 +4,14 @@ using Repository.Models;
 
 namespace Application.AutoMapper
 {
-    public class DALtoTableProfileMapper : Profile
+    public class DAL_ModelProfileMapper : Profile
     {
 
-        public DALtoTableProfileMapper()
+        public DAL_ModelProfileMapper()
         {
             CreateMap<MessageDAL, Message>().ReverseMap();
             CreateMap<ChatRoomDAL, ChatRoom>().ReverseMap();
+            CreateMap<UserDAL, ApplicationUser>().ReverseMap();
         }
 
     }

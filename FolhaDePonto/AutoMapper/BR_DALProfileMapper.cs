@@ -6,10 +6,10 @@ using Repository.DataAccessLayer;
 
 namespace Application.AutoMapper
 {
-    public class BRtoDALProfileMapper : Profile
+    public class BR_DALProfileMapper : Profile
     {
 
-        public BRtoDALProfileMapper()
+        public BR_DALProfileMapper()
         {
             CreateMap<MessageBR, MessageDAL>().ReverseMap();
             CreateMap<ChatRoomBR, ChatRoomDAL>().ReverseMap();

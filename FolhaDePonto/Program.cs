@@ -93,9 +93,9 @@ services.AddDbContext<AppDatabaseContext>(options =>
 #region AutoMapper
 
 services.AddAutoMapper(
-    typeof(DTOtoBRProfileMapper),
-    typeof(BRtoDALProfileMapper),
-    typeof(DALtoTableProfileMapper)
+    typeof(DTO_BRProfileMapper),
+    typeof(BR_DALProfileMapper),
+    typeof(DAL_ModelProfileMapper)
     );
 #endregion
 

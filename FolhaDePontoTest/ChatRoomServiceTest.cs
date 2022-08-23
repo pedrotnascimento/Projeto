@@ -14,15 +14,12 @@ namespace FolhaDePontoTest
 {
     public class ChatRoomServiceTest
     {
-        private readonly DateTime defaultDateTime = new DateTime(2022, 1, 3, 0, 0, 0);
         IChatRoom chatRoomService;
-        UserBR testUser;
         AppDatabaseContext context;
         public ChatRoomServiceTest()
         {
             context = CreateContext();
             chatRoomService = ChatRoomServiceArranje(context);
-            CreateTestUser(context);
         }
 
         [Fact]
@@ -67,19 +64,14 @@ namespace FolhaDePontoTest
             return context;
         }
 
-        private void CreateTestUser(AppDatabaseContext context)
-        {
-            testUser = new UserBR { Name = "teste" };
-        }
-
         private static IChatRoom ChatRoomServiceArranje(AppDatabaseContext context)
         {
             Mock<ILogger<ChatRoomService>> mockLogger = new Mock<ILogger<ChatRoomService>>();
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(typeof(DTOtoBRProfileMapper));
-                cfg.AddProfile(typeof(BRtoDALProfileMapper));
-                cfg.AddProfile(typeof(DALtoTableProfileMapper));
+                cfg.AddProfile(typeof(DTO_BRProfileMapper));
+                cfg.AddProfile(typeof(BR_DALProfileMapper));
+                cfg.AddProfile(typeof(DAL_ModelProfileMapper));
             });
 
             var mapper = mapperConfiguration.CreateMapper();

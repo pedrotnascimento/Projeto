@@ -3,6 +3,7 @@ namespace Repository.DataAccessLayer
 {
     public class MessageDAL
     {
+        public int Id { get; set; }
         public string UserId { get; set; }
         public UserDAL User { get; set; }
         public int ChatRoomId { get; set; }

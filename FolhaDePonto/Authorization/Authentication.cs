@@ -9,7 +9,7 @@ namespace Application.Authorization
             var mockedUser = new UserDTO
             {
                 Id = 1,
-                Name = "Usuario Mockado"
+                UserName = "Usuario Mockado"
             };
             return mockedUser;
         }

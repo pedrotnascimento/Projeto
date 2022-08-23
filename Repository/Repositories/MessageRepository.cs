@@ -32,7 +32,7 @@ namespace Repository.Repositories
             {
                 {"timestamp", "Timestamp" },
             };
-            var messages = this.context.Messages.Where(x => x.ChatRoomId == filter.ChatRoom);    
+            IQueryable<Message>? messages = this.context.Messages.Where(x => x.ChatRoomId == filter.ChatRoom);    
             messages = messages.OrderByDescending(x => x.Timestamp);
             messages = messages.Take(filter.Quantity);
             

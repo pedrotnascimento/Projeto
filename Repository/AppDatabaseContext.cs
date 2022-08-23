@@ -10,7 +10,6 @@ namespace Repository
     {
         public DbSet<ChatRoom> ChatRooms { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<User> Users { get; set; }
 
         public string DbPath { get; }
 

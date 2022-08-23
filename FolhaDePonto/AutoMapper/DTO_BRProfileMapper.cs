@@ -5,14 +5,16 @@ using Application.DTO;
 
 namespace Application.AutoMapper
 {
-    public class DTOtoBRProfileMapper : Profile
+    public class DTO_BRProfileMapper : Profile
     {
 
-        public DTOtoBRProfileMapper()
+        public DTO_BRProfileMapper()
         {
             CreateMap<MessageCreateDTO, MessageBR>();
             CreateMap<ChatRoomCreateDTO, ChatRoomBR>();
             CreateMap<ChatRoomBR, ChatRoomResponseDTO>();
+            CreateMap<MessageBR, MessageResponseDTO>();
+            CreateMap<UserBR, UserDTO>().ReverseMap();
         }
 
     }

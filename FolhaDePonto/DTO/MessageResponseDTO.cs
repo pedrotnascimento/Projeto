@@ -3,6 +3,7 @@
     public class MessageResponseDTO
     {
         public string UserId { get; set; }
+        public UserDTO User { get; set; }
         public int ChatRoomId { get; set; }
         public DateTime Timestamp { get; set; }
         public string Payload { get; set; }
