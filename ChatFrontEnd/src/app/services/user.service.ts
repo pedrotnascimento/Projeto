@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from "@microsoft/signalr"
 import { API_CONTROLER } from '../../environments/environment';
 import { ChatModel } from '../interfaces/chatInterface';
+import { getHeaders } from './api-utils';
 
 
 
@@ -19,7 +20,7 @@ export class UserService {
       "email": login+"@gmail.com",
       "role": "client"
     };
-    return this.http.post(`${API_CONTROLER}/api/user/create`, body);
+    return this.http.post(`${API_CONTROLER}/api/user/create`, body, getHeaders());
   }
 
   login = (login:string , password: string) => {
@@ -28,6 +29,6 @@ export class UserService {
       "password": password,
       "role": "client"
     };
-    return this.http.post(`${API_CONTROLER}/api/user/login`, body);
+    return this.http.post(`${API_CONTROLER}/api/user/login`, body, getHeaders());
   }
 }

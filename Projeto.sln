@@ -15,6 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockBotFunction", "StockBot\StockBotFunction.csproj", "{A887445B-B5C3-458D-9F52-5DEE60D4771F}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ChatFrontEnd", "ChatFrontEnd\ChatFrontEnd.esproj", "{EA71911D-B62A-4387-ADA6-257B6EA55696}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketApp", "SocketApp\SocketApp.csproj", "{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerStockBot", "ConsumerStockBot\ConsumerStockBot.csproj", "{EF3D2C57-2862-4EDB-8460-9654AC846248}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +51,20 @@ Global
 		{A887445B-B5C3-458D-9F52-5DEE60D4771F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A887445B-B5C3-458D-9F52-5DEE60D4771F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A887445B-B5C3-458D-9F52-5DEE60D4771F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA71911D-B62A-4387-ADA6-257B6EA55696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA71911D-B62A-4387-ADA6-257B6EA55696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA71911D-B62A-4387-ADA6-257B6EA55696}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EA71911D-B62A-4387-ADA6-257B6EA55696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA71911D-B62A-4387-ADA6-257B6EA55696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA71911D-B62A-4387-ADA6-257B6EA55696}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF3D2C57-2862-4EDB-8460-9654AC846248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF3D2C57-2862-4EDB-8460-9654AC846248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF3D2C57-2862-4EDB-8460-9654AC846248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF3D2C57-2862-4EDB-8460-9654AC846248}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

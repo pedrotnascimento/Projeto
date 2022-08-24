@@ -18,6 +18,10 @@ export class AppComponent {
   passwordLogin = "";
   passwordRegister = "";
   isAuth: any = false;
+  chatRooms: any[] = [];
+    messages: any[]=[];
+    chatRoomCurrent: any;
+    messageField: any = ""; 
 
   constructor(
     public signalRService: SignalrService,
@@ -32,6 +36,10 @@ export class AppComponent {
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
     this.startHttpRequest();
+    if (this.isAuth) {
+
+    this.listChatRooms();
+    }
   }
 
   login = () => {
@@ -42,6 +50,7 @@ export class AppComponent {
       if (isAuth) {
         const accessToken = response.accessToken;
         localStorage.setItem("accessToken", accessToken);
+        this.listChatRooms();
       }
     });
   }
@@ -56,6 +65,25 @@ export class AppComponent {
   createChat = () => {
     this.chatRoomService.create(this.chatName).subscribe(x => {
       console.log("created chatroom", x);
+      this.listChatRooms();
+    });
+  }
+
+  enterChat = (chat: any) => {
+    this.chatRoomCurrent = chat;
+    this.listMessages(chat);
+  }
+
+  sendMessage = () => {
+    const obj = {
+      payload: this.messageField,
+      chatRoomId: this.chatRoomCurrent.id,
+      timestamp: new Date()
+    };
+    this.messageService.create(obj).subscribe(x => {
+      console.log("message created rest", x);
+      this.listMessages(this.chatRoomCurrent);
+
     });
   }
 
@@ -65,4 +93,18 @@ export class AppComponent {
         console.log(res);
       })
   }
+
+    private listMessages(chat: any) {
+        this.messageService.list(chat.id).subscribe((messages: any) => {
+            console.log("messages rest", messages);
+          this.messages = messages;
+          this.messages = this.messages.reverse();
+        });
+    }
+
+    private listChatRooms() {
+        this.chatRoomService.list().subscribe((chats: any) => {
+            this.chatRooms = chats;
+        });
+    }
 }

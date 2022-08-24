@@ -40,7 +40,7 @@ namespace SocketApp
                 {
                     var body = ea.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
-                    context.Clients.All.SendAsync("messageReceived", message);
+                    //context.Clients.All.SendAsync("messageReceived", message);
                     stockHub.BotSending(message);
                     Console.WriteLine(" [x] Receive {0}", message);
                 };

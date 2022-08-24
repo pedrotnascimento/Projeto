@@ -59,4 +59,24 @@
   <div>
     <button (click)="createChat()">Criar chat {{chatName}}</button>
   </div>
+  <hr />
+  <div>
+    <div *ngFor="let cr of chatRooms">
+      <button (click)="enterChat(cr)">{{cr.id}} - {{cr.name}} </button>
+    </div>
+  </div>
+  <hr />
+  
+  <div *ngIf="!!chatRoomCurrent">
+    <h3>Chat Room {{chatRoomCurrent? chatRoomCurrent.name: ""}}</h3>
+    <div *ngFor="let m of messages">
+      <div>{{m.user.userName}}: {{m.payload}}</div>
+    </div>
+    <div>
+      <input [(ngModel)]="messageField" />
+    </div>
+    <div>
+      <button (click)="sendMessage()">Send Message</button>
+    </div>
+  </div>
 </div>

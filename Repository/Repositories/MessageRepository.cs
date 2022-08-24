@@ -3,6 +3,7 @@ using Repository.DataAccessLayer;
 using Repository.RepositoryInterfaces;
 using Repository.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Repositories
 {
@@ -32,10 +33,12 @@ namespace Repository.Repositories
             {
                 {"timestamp", "Timestamp" },
             };
-            IQueryable<Message>? messages = this.context.Messages.Where(x => x.ChatRoomId == filter.ChatRoom);    
+            IQueryable<Message>? messages = this.context.Messages
+                .Where(x => x.ChatRoomId == filter.ChatRoom);    
             messages = messages.OrderByDescending(x => x.Timestamp);
             messages = messages.Take(filter.Quantity);
-            
+            messages = messages.Include(x => x.User);
+
             var messagesDAL = mapper.Map<List<MessageDAL>>(messages);
             return messagesDAL;
         }
