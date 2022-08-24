@@ -65,10 +65,10 @@ namespace StockBotFunction
         private void DeclareQueue(IModel channel)
         {
             channel.QueueDeclare(queue: queueName,
-                                                    durable: false,
-                                                    exclusive: false,
-                                                    autoDelete: false,
-                                                    arguments: null);
+                                 durable: false,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
         }
     }
 }

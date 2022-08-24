@@ -14,7 +14,6 @@ namespace StockBot
                 .Build();
             host.Run();
         }
-
     }
 
     public class Startup : FunctionsStartup
