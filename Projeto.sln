@@ -3,23 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "FolhaDePonto\Application.csproj", "{E51F4F70-2B8D-4824-B35E-84662B846E80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{E51F4F70-2B8D-4824-B35E-84662B846E80}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessRule", "Domain\BusinessRule.csproj", "{42B79EBB-5761-49DB-8521-72D578D1B8B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "FolhaDePontoTest\Test.csproj", "{A9AE31EC-8F3A-4F9A-8670-1E685915E1BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "ApplicationTest\Test.csproj", "{A9AE31EC-8F3A-4F9A-8670-1E685915E1BD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{B99374D0-1F16-4A20-BD51-2ED6E7301A42}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{E21BFED7-7D84-49F3-B961-E2B6D15CF434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockBotFunction", "StockBot\StockBotFunction.csproj", "{A887445B-B5C3-458D-9F52-5DEE60D4771F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockBotFunction", "StockBot\StockBotFunction.csproj", "{A887445B-B5C3-458D-9F52-5DEE60D4771F}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ChatFrontEnd", "ChatFrontEnd\ChatFrontEnd.esproj", "{EA71911D-B62A-4387-ADA6-257B6EA55696}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketApp", "SocketApp\SocketApp.csproj", "{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerStockBot", "ConsumerStockBot\ConsumerStockBot.csproj", "{EF3D2C57-2862-4EDB-8460-9654AC846248}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketApp", "SocketApp\SocketApp.csproj", "{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +59,6 @@ Global
 		{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E63C4619-BEF0-46A7-94B1-26D2D6ABCC20}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF3D2C57-2862-4EDB-8460-9654AC846248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF3D2C57-2862-4EDB-8460-9654AC846248}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF3D2C57-2862-4EDB-8460-9654AC846248}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF3D2C57-2862-4EDB-8460-9654AC846248}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

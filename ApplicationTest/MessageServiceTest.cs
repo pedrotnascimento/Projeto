@@ -9,7 +9,7 @@ using Repository.Models;
 using AutoMapper;
 using Application.AutoMapper;
 
-namespace FolhaDePontoTest
+namespace ApplicationTest
 {
     public class MessageServiceTest
     {
@@ -76,8 +76,8 @@ namespace FolhaDePontoTest
 
             var mapper = mapperConfiguration.CreateMapper();
             var messageRepository = new MessageRepository(context, mapper);
-            IMessage folhaDePonto = new MessageService(mockLogger.Object, mapper, messageRepository);
-            return folhaDePonto;
+            IMessage Application = new MessageService(mockLogger.Object, mapper, messageRepository);
+            return Application;
         }
 
         private MessageBR MessageArranje(string text, int chatId, string userId)

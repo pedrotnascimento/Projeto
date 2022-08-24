@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Repository;
 
-namespace FolhaDePontoTest
+namespace ApplicationTest
 {
     public class SharedDatabaseFixture : IDisposable
     {

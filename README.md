@@ -1,4 +1,4 @@
-# FolhaDePonto
+# Application
 
 - Aplicação RestAPI em .Net Core 6
 - ORM: Entity Framework

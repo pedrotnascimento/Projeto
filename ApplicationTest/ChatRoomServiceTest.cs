@@ -10,7 +10,7 @@ using AutoMapper;
 using Application.AutoMapper;
 using Common;
 
-namespace FolhaDePontoTest
+namespace ApplicationTest
 {
     public class ChatRoomServiceTest
     {
@@ -76,8 +76,8 @@ namespace FolhaDePontoTest
 
             var mapper = mapperConfiguration.CreateMapper();
             var chatRoomRepository = new ChatRoomRepository(context, mapper);
-            IChatRoom folhaDePonto = new ChatRoomService(mockLogger.Object, mapper, chatRoomRepository);
-            return folhaDePonto;
+            IChatRoom Application = new ChatRoomService(mockLogger.Object, mapper, chatRoomRepository);
+            return Application;
         }
 
         private void ArranjeSeveralsChatRooms(int tam)

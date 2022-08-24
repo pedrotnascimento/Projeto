@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "FolhaDePonto": {
+    "Application": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
