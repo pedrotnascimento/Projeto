@@ -30,7 +30,7 @@ export class AppComponent {
     private chatRoomService: ChatRoomService,
     private messageService: MessageService,
     private userService: UserService,
-    private stockBotService: StockBotServi,
+    private stockBotService: StockBotService,
   ) { }
   ngOnInit() {
     this.isAuth = !!localStorage.getItem("accessToken");
