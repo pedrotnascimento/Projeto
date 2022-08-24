@@ -47,6 +47,16 @@ new ConfigureFromConfigurationOptions<TokenConfigurations>(
         .Configure(tokenConfigurations);
 services.AddSingleton(tokenConfigurations);
 
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
+        builder =>
+        {
+            builder.AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .SetIsOriginAllowed((host) => true)
+                   .AllowCredentials();
+        }));
+
+
 
 services.AddAuthentication(authOptions =>
 {
@@ -101,6 +111,7 @@ services.AddAutoMapper(
 
 var app = builder.Build();
 
+app.UseCors("CorsPolicy");  
 
 SetPreConfiguredData(app);
 
