@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ChatRoomService } from './services/chatroom.service';
 import { MessageService } from './services/message.service';
 import { SignalrService } from './services/signalr.service';
+import { StockBotService } from './services/stockBot.service';
 import { UserService } from './services/user.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class AppComponent {
   chatRooms: any[] = [];
     messages: any[]=[];
     chatRoomCurrent: any;
-    messageField: any = ""; 
+    messageField: string= ""; 
 
   constructor(
     public signalRService: SignalrService,
@@ -29,6 +30,7 @@ export class AppComponent {
     private chatRoomService: ChatRoomService,
     private messageService: MessageService,
     private userService: UserService,
+    private stockBotService: StockBotServi,
   ) { }
   ngOnInit() {
     this.isAuth = !!localStorage.getItem("accessToken");
@@ -36,6 +38,7 @@ export class AppComponent {
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
     this.startHttpRequest();
+    this.signalRService.action = this.actionForSocket;
     if (this.isAuth) {
 
     this.listChatRooms();
@@ -75,15 +78,39 @@ export class AppComponent {
   }
 
   sendMessage = () => {
+
+    if (this.messageField.includes("/stock=")){
+      const stock = this.messageField.split("=")[1];
+      this.stockBotService.sendCommand(stock).subscribe((x:any) => {
+        console.log("response bot", x);
+      });
+      return;
+    }
     const obj = {
       payload: this.messageField,
       chatRoomId: this.chatRoomCurrent.id,
       timestamp: new Date()
     };
+
     this.messageService.create(obj).subscribe(x => {
       console.log("message created rest", x);
       this.listMessages(this.chatRoomCurrent);
 
+    });
+    this.messageField = "";
+  }
+
+  private listMessages(chat: any) {
+    this.messageService.list(chat.id).subscribe((messages: any) => {
+      console.log("messages rest", messages);
+      this.messages = messages;
+      this.messages = this.messages.reverse();
+    });
+  }
+
+  private listChatRooms() {
+    this.chatRoomService.list().subscribe((chats: any) => {
+      this.chatRooms = chats;
     });
   }
 
@@ -94,17 +121,12 @@ export class AppComponent {
       })
   }
 
-    private listMessages(chat: any) {
-        this.messageService.list(chat.id).subscribe((messages: any) => {
-            console.log("messages rest", messages);
-          this.messages = messages;
-          this.messages = this.messages.reverse();
-        });
-    }
 
-    private listChatRooms() {
-        this.chatRoomService.list().subscribe((chats: any) => {
-            this.chatRooms = chats;
-        });
-    }
+
+  actionForSocket = (data:any) => {
+    console.log("data from socket", data);
+    const message = { payload: data, user: { userName: "Stock Bot" } };
+    this.messages.push(message);
+  }
+
 }

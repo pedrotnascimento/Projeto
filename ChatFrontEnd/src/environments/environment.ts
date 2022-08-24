@@ -16,3 +16,4 @@ export const environment = {
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
 export const API_CONTROLER = "https://localhost:7002";
+export const API_STOCK_BOT = "http://localhost:7071";

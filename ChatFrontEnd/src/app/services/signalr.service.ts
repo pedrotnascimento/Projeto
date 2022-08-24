@@ -6,6 +6,8 @@ import { ChatModel } from '../interfaces/chatInterface';
 })
 export class SignalrService {
   public data: ChatModel[] = [];
+  action: any = null;
+
   private hubConnection: signalR.HubConnection = new signalR.HubConnectionBuilder()
     .withUrl('http://localhost:5272/stocksocket')
     .build();
@@ -22,7 +24,10 @@ export class SignalrService {
 
     public addTransferChartDataListener = () => {
       this.hubConnection.on('messageReceived', (data) => {
-      this.data = data;
+        this.data = data;
+        if (this.action != null) {
+          this.action(data);
+        }
       console.log(data);
     });
   }
