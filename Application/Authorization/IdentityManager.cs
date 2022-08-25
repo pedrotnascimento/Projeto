@@ -60,5 +60,10 @@ namespace Application.Authorization
                 }
             }
         }
+
+        public ApplicationUser GetUser(string? userId)
+        {
+            return _userManager.Users.Where(x => x.Id == userId).FirstOrDefault();
+        }
     }
 }

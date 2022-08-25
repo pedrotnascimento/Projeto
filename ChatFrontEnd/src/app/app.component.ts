@@ -20,9 +20,10 @@ export class AppComponent {
   passwordRegister = "";
   isAuth: any = false;
   chatRooms: any[] = [];
-    messages: any[]=[];
-    chatRoomCurrent: any;
-    messageField: string= ""; 
+  messages: any[] = [];
+  chatRoomCurrent: any;
+  messageField: string = "";
+  userLogged: any;
 
   constructor(
     public signalRService: SignalrService,
@@ -34,14 +35,19 @@ export class AppComponent {
   ) { }
   ngOnInit() {
     this.isAuth = !!localStorage.getItem("accessToken");
+    const user = localStorage.getItem("user");
+    if (!!user) {
+      this.userLogged = JSON.parse(user);
+    }
 
     this.signalRService.startConnection();
-    this.signalRService.addTransferChartDataListener();
+    this.signalRService.addTransferStockCommandListener(this.actionForStockSocket);
+    this.signalRService.addTransferMessageListener(this.actionForMessageSocket);
+    
     this.startHttpRequest();
-    this.signalRService.action = this.actionForSocket;
     if (this.isAuth) {
 
-    this.listChatRooms();
+      this.listChatRooms();
     }
   }
 
@@ -53,6 +59,10 @@ export class AppComponent {
       if (isAuth) {
         const accessToken = response.accessToken;
         localStorage.setItem("accessToken", accessToken);
+        this.userService.getLoggedUser().subscribe(user => {
+          this.userLogged = user;
+          localStorage.setItem("user", JSON.stringify(user));
+        })
         this.listChatRooms();
       }
     });
@@ -61,7 +71,7 @@ export class AppComponent {
   register = () => {
     this.userService.create(this.userNameRegister, this.passwordRegister).subscribe((response: any) => {
       console.log("response create user", response);
-      
+
     });
   }
 
@@ -79,24 +89,28 @@ export class AppComponent {
 
   sendMessage = () => {
 
-    if (this.messageField.includes("/stock=")){
+    if (this.messageField.includes("/stock=")) {
       const stock = this.messageField.split("=")[1];
-      this.stockBotService.sendCommand(stock).subscribe((x:any) => {
+      this.stockBotService.sendCommand(stock).subscribe((x: any) => {
         console.log("response bot", x);
       });
+      this.messageField = "";
       return;
     }
     const obj = {
       payload: this.messageField,
       chatRoomId: this.chatRoomCurrent.id,
+      userId: this.userLogged.id,
       timestamp: new Date()
     };
 
-    this.messageService.create(obj).subscribe(x => {
-      console.log("message created rest", x);
-      this.listMessages(this.chatRoomCurrent);
+    this.signalRService.addTransferMessageSender(obj);
+    ///SENDING BY RESTFUL API
+    //this.messageService.create(obj).subscribe(x => {
+    //  console.log("message created rest", x);
+    //  this.listMessages(this.chatRoomCurrent);
 
-    });
+    //});
     this.messageField = "";
   }
 
@@ -123,9 +137,15 @@ export class AppComponent {
 
 
 
-  actionForSocket = (data:any) => {
+  actionForStockSocket = (data: any) => {
     console.log("data from socket", data);
     const message = { payload: data, user: { userName: "Stock Bot" } };
+    this.messages.push(message);
+  }
+
+  actionForMessageSocket = (data: any) => {
+    console.log("messagefrom socket", data);
+    const message = data;
     this.messages.push(message);
   }
 

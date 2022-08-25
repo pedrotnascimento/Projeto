@@ -105,5 +105,17 @@ namespace Application.Controllers
             _identityManager.CreateUser(usuario);
             return new OkObjectResult(true);
         }
+        
+        [Authorize("Bearer")]
+        [HttpGet("logged")]
+        public ObjectResult LoggedUser()
+        {
+            string authHeader = HttpContext.Request.Headers["Authorization"];
+
+            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = _identityManager.GetUser(userId);
+            return new OkObjectResult(user);
+        }
     }
 }

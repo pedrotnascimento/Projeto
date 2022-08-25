@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Application.Authorization;
+using Application.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,6 +88,7 @@ services.AddAuthorization(auth =>
         .RequireAuthenticatedUser().Build());
 });
 
+services.AddSignalR();
 
 # region Database
 var connection = configuration.GetSection("ConnectionStrings").GetValue<string>("Sqlite");
@@ -110,7 +112,7 @@ services.AddAutoMapper(
 #endregion
 
 var app = builder.Build();
-
+app.MapHub<MessageHub>("/messagesocket");
 app.UseCors("CorsPolicy");  
 
 SetPreConfiguredData(app);

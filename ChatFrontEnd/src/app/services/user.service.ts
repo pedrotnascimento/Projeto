@@ -31,4 +31,8 @@ export class UserService {
     };
     return this.http.post(`${API_CONTROLER}/api/user/login`, body, getHeaders());
   }
+
+  getLoggedUser= () => {
+    return this.http.get(`${API_CONTROLER}/api/user/logged`, getHeaders());
+  }
 }

@@ -7,5 +7,6 @@ namespace Application.Authorization
     {
         void CreateUser(User user);
         void CreateRoles(RoleManager<IdentityRole>? roleManager);
+        ApplicationUser GetUser(string? userId);
     }
 }
