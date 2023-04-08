@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as signalR from "@microsoft/signalr"
 import { API_CONTROLER } from '../../environments/environment';
-import { ChatModel } from '../interfaces/chatInterface';
 import { getHeaders } from './api-utils';
 
 

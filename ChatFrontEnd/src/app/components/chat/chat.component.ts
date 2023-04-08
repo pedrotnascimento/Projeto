@@ -81,7 +81,7 @@ export class ChatComponent implements OnInit, OnChanges {
     private listMessages(chat: any) {
         this.messageService.list(chat.id).subscribe((messages: any) => {
             this.messages = messages;
-            this.messages = this.messages.reverse();
+            this.messages = this.messages;
         });
     }
 
@@ -98,12 +98,12 @@ export class ChatComponent implements OnInit, OnChanges {
 
     actionForStockSocket = (data: any) => {
         const message = { payload: data, user: { userName: "Stock Bot" } };
-        this.messages.push(message);
+        this.messages = [message].concat(this.messages);
     }
 
     actionForMessageSocket = (data: any) => {
         const message = data;
-        this.messages.push(message);
+        this.messages = [message].concat(this.messages);
     }
 
 }

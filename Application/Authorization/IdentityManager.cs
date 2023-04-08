@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Repository;
 using Repository.Models;
+using System.Security.Cryptography.Xml;
 
 namespace Application.Authorization
 {
@@ -33,17 +34,25 @@ namespace Application.Authorization
             };
 
 
-            var result = _userManager.FindByNameAsync(user.Name).Result; 
+            var result = await _userManager.FindByNameAsync(user.Name); 
             if (result==null)
             {
-                var resultado = _userManager
-                    .CreateAsync(userApp, user.Password).Result;
+                var resultado = await _userManager
+                    .CreateAsync(userApp, user.Password);
 
                 if (resultado.Succeeded &&
                     !string.IsNullOrWhiteSpace(user.Role))
                 {
                     await _userManager.AddToRoleAsync(userApp, user.Role);
                 }
+                else
+                {
+                    throw new Exception("Users password invalid!");
+                }
+            }
+            else
+            {
+                throw new Exception("User already exists!");
             }
         }
 

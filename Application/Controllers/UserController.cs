@@ -16,12 +16,15 @@ namespace Application.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IIdentityManager _identityManager;
+        private readonly ILogger _logger;
 
         public UserController(UserManager<ApplicationUser> userManager,
-            IIdentityManager identityInitializer)
+            IIdentityManager identityInitializer,
+            ILogger<UserController> logger)
         {
             _userManager = userManager;
             _identityManager = identityInitializer;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -99,13 +102,20 @@ namespace Application.Controllers
 
         [AllowAnonymous]
         [HttpPost("create")]
-        public ObjectResult CreateUserPost(
+        public  ObjectResult CreateUserPost(
             [FromBody] User usuario)
         {
-            _identityManager.CreateUser(usuario);
-            return new OkObjectResult(true);
+            try
+            {
+                _identityManager.CreateUser(usuario);
+                return new OkObjectResult(true);
+            }
+            catch (Exception e)
+            {
+                return ControllerHelpers.ReturnError(e, 400, _logger, StatusCode);
+            }
         }
-        
+
         [Authorize("Bearer")]
         [HttpGet("logged")]
         public ObjectResult LoggedUser()

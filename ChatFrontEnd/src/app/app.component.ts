@@ -24,7 +24,7 @@ export class AppComponent {
   login = ({ isAuthenticated, user }: any) => {
     this.isAuth = isAuthenticated;
     if (user) {
-      this.userLogged = JSON.parse(user);
+      this.userLogged = user;
       localStorage.setItem("user", JSON.stringify(user));
     }
   }
