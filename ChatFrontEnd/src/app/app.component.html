@@ -1,82 +1,20 @@
-<style>
-  .user-area {
-    display: flex;
-    margin-bottom: 15px;
-    flex-direction: row;
-  }
-</style>
-<div class="user-area">
-  <div>
-    <h2>Register</h2>
-    <div>
-      <label>User Name</label>
-      <input [(ngModel)]="userNameRegister" placeholder="User" />
-    </div>
-    <div>
-      <label>Password </label>
-      <input [(ngModel)]="passwordRegister" placeholder="Password" />
 
-      <div>
-        <button (click)="register()">Register</button>
+<div class="user-area">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <register></register>
       </div>
-      <div>
-        <ul>
-          <li>
-            <small>By default, Identity requires that passwords contain an uppercase character, lowercase character, a digit, and a non-alphanumeric character. Passwords must be at least six characters long</small>
-          </li>
-          <li>
-            <small>Password recommended: Abc123!</small>
-          </li>
-        </ul>
+      <div class="col">
+        <login (onAuthenticated)="login($event)"></login>
       </div>
-    </div>
-  <div>
-    <h2>Login</h2>
-    <div>
-      <label>User Name</label>
-      <input [(ngModel)]="userNameLogin" placeholder="User" />
-    </div>
-    <div>
-      <label>Password</label>
-      <input [(ngModel)]="passwordLogin" placeholder="Password" />
-    </div>
-    <div>
-      <button (click)="login()">Login</button>
     </div>
   </div>
-</div>
 </div>
 <div *ngIf="!isAuth">
   Please Register and Login to access features!!
-
 </div>
-
-<div *ngIf="isAuth">
-  <div>
-    <label>Chat name</label>
-    <input [(ngModel)]="chatName" placeholder="Chat Name" />
-  </div>
-  <div>
-    <button (click)="createChat()">Criar chat {{chatName}}</button>
-  </div>
-  <hr />
-  <div>
-    <div *ngFor="let cr of chatRooms">
-      <button (click)="enterChat(cr)">{{cr.id}} - {{cr.name}} </button>
-    </div>
-  </div>
-  <hr />
-  
-  <div *ngIf="!!chatRoomCurrent">
-    <h3>Chat Room {{chatRoomCurrent? chatRoomCurrent.name: ""}}</h3>
-    <div *ngFor="let m of messages">
-      <div>{{m.user.userName}}: {{m.payload}}</div>
-    </div>
-    <div>
-      <input [(ngModel)]="messageField" />
-    </div>
-    <div>
-      <button (click)="sendMessage()">Send Message</button>
-    </div>
-  </div>
+<hr />
+<div *ngIf="isAuth && userLogged" class="chat-room--space">
+  <chat [isAuth]="isAuth" [userLoggedId]="userLogged.id"></chat>
 </div>

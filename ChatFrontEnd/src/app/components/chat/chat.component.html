@@ -1,0 +1,48 @@
+<div *ngIf="isAuth">
+  <div clas="container">
+    <div class="row">
+      <div class="col">
+        <div>
+          <h3>Create a chat</h3>
+          <div>
+            <input [(ngModel)]="chatName" placeholder="Chat Name" />
+          </div>
+        </div>
+        <div>
+          <button (click)="createChat()">Create chat {{chatName}}</button>
+        </div>
+      </div>
+      <div class="col">
+        <h3>Select chat</h3>
+        <div>
+          <div *ngFor="let cr of chatRooms">
+            <button (click)="enterChat(cr)">{{cr.id}} - {{cr.name}} </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <div *ngIf="!!chatRoomCurrent">
+        <h3>Chat Room {{chatRoomCurrent? chatRoomCurrent.name: ""}}</h3>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div>
+                <input [(ngModel)]="messageField" placeholder="Write your message"/>
+              </div>
+              <div>
+                <button (click)="sendMessage()">Send Message</button>
+              </div>
+            </div>
+            <div class="col">
+              <div *ngFor="let m of messages">
+                <div>{{m.user.userName}}: {{m.payload}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

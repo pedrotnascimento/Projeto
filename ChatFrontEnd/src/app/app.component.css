@@ -1,0 +1,9 @@
+.user-area {
+    display: flex;
+    margin-bottom: 15px;
+    flex-direction: row;
+  }
+
+  .chat-room--space{
+   padding-left: 20px ; 
+  }
