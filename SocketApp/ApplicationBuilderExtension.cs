@@ -12,15 +12,11 @@
 
             life.ApplicationStarted.Register(OnStarted);
 
-            //press Ctrl+C to reproduce if your app runs in Kestrel as a console app
-            //life.ApplicationStopping.Register(OnStopping);
-
             return app;
         }
 
         private static void OnStarted()
         {
-            //var name = Environment.GetEnvironmentVariable("QueueName", EnvironmentVariableTarget.Process);
             Listener.ReceiveMessage("StockBotQueue");
         }
     }

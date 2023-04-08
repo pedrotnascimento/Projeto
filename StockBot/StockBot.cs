@@ -12,12 +12,6 @@ namespace StockBot
     public  class StockBot
     {
 
-        // Não conseguiu fazer injeção, vou usar implementação
-        //private IMessageBroker messageBroker;
-        //public StockBot(IMessageBroker messageBroker)
-        //{
-        //    this.messageBroker = messageBroker;
-        //}
 
         [Function("stockbot")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get" , Route = "stockbot/{stock}")] HttpRequestData req, string stock,
@@ -33,8 +27,6 @@ namespace StockBot
             var queueName = GetEnvironmentVariable("QueueName");
             var messageBroker = new RabbitMQFacade(queueName);
             messageBroker.SendMessage(messageToBroker);
-            //messageBroker.ReceiveMessage();
-            //Console.ReadLine();
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");

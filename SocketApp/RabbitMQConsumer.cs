@@ -2,11 +2,7 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SocketApp.Hubs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SocketApp
 {
@@ -40,7 +36,6 @@ namespace SocketApp
                 {
                     var body = ea.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
-                    //context.Clients.All.SendAsync("messageReceived", message);
                     stockHub.BotSending(message);
                     Console.WriteLine(" [x] Receive {0}", message);
                 };

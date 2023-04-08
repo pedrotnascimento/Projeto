@@ -21,7 +21,7 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DatabaseContextConnection") ?? throw new InvalidOperationException("Connection string 'DatabaseContextConnection' not found.");
 
-// Add services to the container.
+
 services.AddScoped<IChatRoom, ChatRoomService>();
 services.AddScoped<IMessage, MessageService>();
 services.AddScoped<IMessageRepository, MessageRepository>();
@@ -30,7 +30,7 @@ services.AddScoped<IAuthentication, Authentication>();
 services.AddScoped<IIdentityManager, IdentityManager>();
 
 services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
@@ -70,14 +70,14 @@ services.AddAuthentication(authOptions =>
     paramsValidation.ValidAudience = tokenConfigurations.Audience;
     paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
 
-    // validates signature of a given tokne
+    
     paramsValidation.ValidateIssuerSigningKey = true;
 
-    // Verifies if a token is still valid
+    
     paramsValidation.ValidateLifetime = true;
 
-    // Tolerance expiring time for token
-    // (used when has time difference between computers)
+    
+    
     paramsValidation.ClockSkew = TimeSpan.Zero;
 });
 
@@ -96,8 +96,7 @@ services.AddDbContext<AppDatabaseContext>(options =>
     options.UseSqlite(connection)
 );
 
-//services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<DatabaseContext>();
+
 
 #endregion
 
@@ -117,7 +116,7 @@ app.UseCors("CorsPolicy");
 
 SetPreConfiguredData(app);
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

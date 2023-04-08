@@ -61,7 +61,6 @@ namespace StockBotFunction
                 int CLOSE_FIELD = 6;
                 while (!parser.EndOfData)
                 {
-                    //Process row
                     var closePriceStr = parser.ReadFields()[CLOSE_FIELD];
                     closePrice = (double)Convert.ToDouble(closePriceStr);
 

@@ -9,7 +9,6 @@ builder.Services.AddSignalRCore();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<RabbitMQConsumer>();
 builder.Services.AddSingleton<StockHub>();
-//builder.Services.AddSingleton<IHubContext<StockHub>>();
 builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
         builder =>
         {
@@ -21,8 +20,6 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
 
 var app = builder.Build();
 
-//app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
-//app.UseCors(config => config.WithOrigins("http://localhost:4200"));
 app.UseCors("CorsPolicy");
 
 app.MapHub<StockHub>("/stocksocket");
@@ -32,5 +29,4 @@ app.UseStaticFiles();
 
 app.UseRabbitListener();
 
-//RabbitMQFacade.ReceiveMessage((data) => (new StockHub()).BotSending(data), "StockBotQueue");
 app.Run();

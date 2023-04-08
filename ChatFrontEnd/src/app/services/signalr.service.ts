@@ -17,18 +17,11 @@ export class SignalrService {
     .build();
 
   public startConnection = () => {
-    //this.hubConnection = new signalR.HubConnectionBuilder()
-    //  .withUrl('ws://localhost:5272/stocksocket')
-    //  .build();
     this.hubConnectionStockBot
-      .start()
-      .then(() => console.log('Connection started'))
-      .catch(err => console.log('Error while starting connection: ' + err))
+      .start();
 
     this.hubConnectionMessages
-      .start()
-      .then(() => console.log('Connection started'))
-      .catch(err => console.log('Error while starting connection: ' + err))
+      .start();
   }
 
   public addTransferStockCommandListener = (action: any) => {
@@ -37,7 +30,6 @@ export class SignalrService {
       if (action != null) {
         action(data);
       }
-      console.log(data);
     });
   }
 
@@ -47,7 +39,7 @@ export class SignalrService {
         if (action != null) {
           action(data);
         }
-      console.log(data);
+      
       });
   }
 

@@ -24,7 +24,6 @@ namespace Application.Hubs
 
         public async Task MessageSent(MessageBR message)
         {
-            //MessageBR messageObj = new MessageBR { ChatRoomId = chatId, UserId = userId, Payload = message };
             var messageObjResult = messageService.SendMessage(message);
             var user = identityManager.GetUser(messageObjResult.UserId);
             messageObjResult.User = new UserBR {  Id = user.Id, UserName = user.UserName};
