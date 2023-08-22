@@ -38,6 +38,13 @@ services.AddSwaggerGen();
 services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDatabaseContext>()
     .AddDefaultTokenProviders();
+services.Configure<AppDatabaseContext>(context =>
+{
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+});
 
 var signingConfigurations = new SigningConfigurations();
 services.AddSingleton(signingConfigurations);
@@ -79,15 +86,8 @@ services.AddAuthentication(authOptions =>
     paramsValidation.IssuerSigningKey = signingConfigurations.Key;
     paramsValidation.ValidAudience = tokenConfigurations.Audience;
     paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
-
-    
     paramsValidation.ValidateIssuerSigningKey = true;
-
-    
     paramsValidation.ValidateLifetime = true;
-
-    
-    
     paramsValidation.ClockSkew = TimeSpan.Zero;
 });
 
@@ -106,8 +106,6 @@ services.AddDbContext<AppDatabaseContext>(options =>
     options.UseSqlite(connection)
 );
 
-
-
 #endregion
 
 
@@ -122,7 +120,7 @@ services.AddAutoMapper(
 
 var app = builder.Build();
 app.MapHub<MessageHub>("/messagesocket");
-app.UseCors("CorsPolicy");  
+app.UseCors("CorsPolicy");
 
 SetPreConfiguredData(app);
 
